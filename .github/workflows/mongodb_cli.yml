@@ -36,13 +36,16 @@ jobs:
 
       - name: Download MongoDB Installer
         run: |
-          curl -L -o MongoDB-User-8.0.11.exe \
-          https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.0.11.zip
+          curl -L -o mongodb.zip https://fastdl.mongodb.org/windows/mongodb-windows-x86_64-8.0.11.zip
+          unzip -o mongodb.zip -d mongodb
+
+      - name: List extracted files
+        run: ls -l mongodb
 
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG_NAME }}
-          files: Cursor-Windows-x64-User-1.0.0.exe
+          files: mongodb/*.msi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
